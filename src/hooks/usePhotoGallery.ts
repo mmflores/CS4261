@@ -17,7 +17,6 @@ const PHOTO_STORAGE = "photos";
 export function usePhotoGallery() {
     const {deleteFile, getUri, readFile, writeFile} = useFilesystem();
     const {get , set } = useStorage();
-
     const { getPhoto } = useCamera();
 
     const [photos, setPhotos] = useState<Photo[]>([]);
@@ -25,16 +24,21 @@ export function usePhotoGallery() {
     //retrieve data when hook loads
     useEffect(() => {
         const loadSaved = async () => {
-            const photosString = await get (PHOTO_STORAGE);
-            const photos = (photosString ? JSON.parse(photosString) : []) as Photo[];
-            for (let photo of photos){
-                const file = await readFile({
-                    path: photo.filepath,
-                    directory: FilesystemDirectory.Data
-                });
-                photo.base64 = `data:image/jpeg;base64,${file.data}`;
+            const photosString = await get('photos');
+            const photosInStorage = (photosString ? JSON.parse(photosString) : []) as Photo[];
+            
+            //check platform
+            //if on web
+            if (!isPlatform('hybrid')){
+                for (let photo of photosInStorage){
+                    const file = await readFile({
+                        path: photo.filepath,
+                        directory: FilesystemDirectory.Data
+                    });
+                    photo.base64 = `data:image/jpeg;base64,${file.data}`;
+                }
             }
-            setPhotos(photos);
+            setPhotos(photosInStorage);
         };
         loadSaved();
     }, [get, readFile]);
@@ -54,25 +58,55 @@ export function usePhotoGallery() {
         setPhotos(newPhotos);
 
         //ave gallery data
-        set (PHOTO_STORAGE, JSON.stringify(newPhotos.map(p => {
+        set (PHOTO_STORAGE, 
+            //check platform
+            isPlatform('hybrid') ?
+            JSON.stringify(newPhotos) :
+            JSON.stringify(newPhotos.map(p => {
             const photoCopy = { ...p};
             delete photoCopy.base64;
             return photoCopy;
         })));
     };
 
+    /*
+    * this function was changed in this branch to implement platform-specific logic
+    */
     const savePicture = async (photo: CameraPhoto, fileName: string): Promise<Photo> => {
-        const base64Data = await base64FromPath(photo.webPath!);
+        let base64Data: string;
+        
+        //"hybrid" detects Cordova or Capacitor
+        if (isPlatform('hybrid')){
+            const file = await readFile({
+                path: photo.path!
+            });
+            base64Data = file.data;
+        }
+        else{
+            base64Data = await base64FromPath(photo.webPath!);
+        }
+
         const savedFile = await writeFile({
             path: fileName,
             data: base64Data,
             directory: FilesystemDirectory.Data
         });
 
-        return {
-            filepath: fileName,
-            webviewPath: photo.webPath
-        };
+        if (isPlatform('hybrid')){
+            //display image by writing file path to HTTP
+            return {
+                filepath: savedFile.uri,
+                webviewPath: Capacitor.convertFileSrc(savedFile.uri),
+            };
+        }
+        else{
+            //use webpath to display new image since it's loaded into memory
+            return {
+                filepath: fileName,
+                webviewPath: photo.webPath
+            };
+        }
+
     };
     
     return {
