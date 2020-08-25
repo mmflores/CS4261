@@ -57,7 +57,7 @@ export function usePhotoGallery() {
     
         setPhotos(newPhotos);
 
-        //ave gallery data
+        //save gallery data
         set (PHOTO_STORAGE, 
             //check platform
             isPlatform('hybrid') ?

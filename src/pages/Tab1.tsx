@@ -1,7 +1,8 @@
 import React from 'react';
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import { IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCardContent, IonItem, IonIcon, IonLabel, IonButton } from '@ionic/react';
-import { pin, wifi, wine, warning, walk } from 'ionicons/icons';
+import {IonFab, IonFabButton, IonFabList } from '@ionic/react';
+import { pin, addOutline } from 'ionicons/icons';
 import './Tab1.css';
 
 const Tab1: React.FC = () => {
@@ -26,6 +27,13 @@ const Tab1: React.FC = () => {
             within an ion-cardContent element.
           </IonCardContent>
         </IonCard>
+
+        {/*-- fab placed to the bottom end --*/}
+        <IonFab vertical="bottom" horizontal="end" slot="fixed">
+          <IonFabButton>
+            <IonIcon icon={addOutline} />
+          </IonFabButton>
+        </IonFab>
         
         <IonHeader collapse="condense">
           <IonToolbar>
