@@ -50,12 +50,12 @@ const App: React.FC = () => (
             <IonLabel>Tab 1</IonLabel>
           </IonTabButton>
           <IonTabButton tab="tab2" href="/tab2">
-            <IonIcon icon={images} />
-            <IonLabel>Photos</IonLabel>
+            <IonIcon icon={square} />
+            <IonLabel>Tab 2</IonLabel>
           </IonTabButton>
           <IonTabButton tab="tab3" href="/tab3">
-            <IonIcon icon={square} />
-            <IonLabel>Tab 3</IonLabel>
+            <IonIcon icon={images} />
+            <IonLabel>Photos</IonLabel>
           </IonTabButton>
         </IonTabBar>
       </IonTabs>
