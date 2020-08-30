@@ -1,8 +1,9 @@
 import React, {useState , useEffect} from 'react';
 import {IonLoading, IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonInput, IonButton } from '@ionic/react';
-import {Link} from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 import { toast } from '../toast';
-import {registerUser} from '../firebaseConf'
+import {registerUser} from '../firebaseConf';
+import { useDispatch } from 'react-redux';
 
 const Register: React.FC = () => {
 
@@ -11,6 +12,9 @@ const Register: React.FC = () => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [cPassword, setCPassword] = useState('')
+
+    const dispatch = useDispatch();
+    const history = useHistory();
 
     async function register(){
         setBusy(true);
@@ -26,7 +30,9 @@ const Register: React.FC = () => {
         const res = await registerUser(username, password);
 
         if (res){
+            history.replace('./dashboard');
             toast('Registration sucessful!');
+
         }
         setBusy(false);
     }

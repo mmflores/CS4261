@@ -5,7 +5,6 @@ import {loginUser} from '../firebaseConf';
 import { toast } from '../toast';
 import { setUserState } from '../redux/actions';
 import { useDispatch } from 'react-redux';
-import { totalmem } from 'os';
 
 const Login: React.FC = () => {
     const dispatch = useDispatch();

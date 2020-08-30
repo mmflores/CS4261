@@ -17,7 +17,6 @@ import Tab2 from './pages/Tab2';
 import Tab3 from './pages/Tab3';
 import Login from './pages/Login';
 import Register from './pages/Register';
-import Landing from './pages/Landing';
 
 
 
@@ -48,11 +47,12 @@ import './theme/variables.css';
 import { getCurrentUser } from './firebaseConf';
 import { useSelector, useDispatch } from 'react-redux';
 import { setUserState } from './redux/actions';
+import Dashboard from './pages/Dashboard';
 
 const RoutingSystem: React.FC = () => {
   return <IonReactRouter>
       <IonRouterOutlet>
-          <Route path="/landing" component={Landing} exact={true}/>
+          <Route path="/dashboard" component={Dashboard} exact={true}/>
           <Route path="/tab1" component={Tab1} exact={true} />
           <Route path="/login" component={Login} exact={true}/>
           <Route path="/register" component={Register} exact={true}/>
@@ -67,6 +67,10 @@ const App: React.FC = () => {
   const [busy, setBusy] = useState<boolean>(true);
 
   const dispatch = useDispatch();
+
+  const firebase = require("firebase");
+  // Required for side-effects
+  require("firebase/firestore");
 
   useEffect(() => {
     getCurrentUser().then((user: any) =>{
@@ -86,15 +90,15 @@ const App: React.FC = () => {
     {busy ? <IonSpinner/> : <RoutingSystem />}
     <IonReactRouter>
       <IonTabs>
-      <IonRouterOutlet>
-          <Route path="/landing" component={Landing} exact={true}/>
-          <Route path="/tab1" component={Tab1} exact={true} />
-          <Route path="/login" component={Login} exact={true}/>
-          <Route path="/register" component={Register} exact={true}/>
-          <Route path="/tab2" component={Tab2} exact={true} />
-          <Route path="/tab3" component={Tab3} />
-          <Route path="/" render={() => <Redirect to="/landing" />} exact={true} />
-        </IonRouterOutlet>
+        <IonRouterOutlet>
+            <Route path="/dashboard" component={Dashboard} exact={true}/>
+            <Route path="/tab1" component={Tab1} exact={true} />
+            <Route path="/login" component={Login} exact={true}/>
+            <Route path="/register" component={Register} exact={true}/>
+            <Route path="/tab2" component={Tab2} exact={true} />
+            <Route path="/tab3" component={Tab3} />
+            <Route path="/" render={() => <Redirect to="/login" />} exact={true} />
+          </IonRouterOutlet>
         <IonTabBar slot="bottom">
           <IonTabButton tab="tab1" href="/tab1">
             <IonIcon icon={triangle} />
