@@ -11,10 +11,10 @@ import {
   IonSpinner
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { images , ellipse, square, triangle } from 'ionicons/icons';
-import Tab1 from './pages/Dashboard';
-import Tab2 from './pages/Tab2';
-import Tab3 from './pages/Tab3';
+import { images , earthOutline, personCircleOutline } from 'ionicons/icons';
+import Dashboard from './pages/Dashboard';
+import Gallery from './pages/Gallery';
+import Profile from './pages/Profile';
 import Login from './pages/Login';
 import Register from './pages/Register';
 
@@ -47,17 +47,15 @@ import './theme/variables.css';
 import { getCurrentUser } from './firebaseConf';
 import { useSelector, useDispatch } from 'react-redux';
 import { setUserState } from './redux/actions';
-import Dashboard from './pages/Dashboard';
 
 const RoutingSystem: React.FC = () => {
   return <IonReactRouter>
       <IonRouterOutlet>
           <Route path="/dashboard" component={Dashboard} exact={true}/>
-          <Route path="/tab1" component={Tab1} exact={true} />
           <Route path="/login" component={Login} exact={true}/>
           <Route path="/register" component={Register} exact={true}/>
-          <Route path="/tab2" component={Tab2} exact={true} />
-          <Route path="/tab3" component={Tab3} />
+          <Route path="/gallery" component={Gallery} exact={true} />
+          <Route path="/profile" component={Profile} />
           <Route path="/" render={() => <Redirect to="/landing" />} exact={true} />
         </IonRouterOutlet>
   </IonReactRouter>
@@ -92,25 +90,24 @@ const App: React.FC = () => {
       <IonTabs>
         <IonRouterOutlet>
             <Route path="/dashboard" component={Dashboard} exact={true}/>
-            <Route path="/tab1" component={Tab1} exact={true} />
             <Route path="/login" component={Login} exact={true}/>
             <Route path="/register" component={Register} exact={true}/>
-            <Route path="/tab2" component={Tab2} exact={true} />
-            <Route path="/tab3" component={Tab3} />
+            <Route path="/gallery" component={Gallery} exact={true} />
+            <Route path="/profile" component={Profile} />
             <Route path="/" render={() => <Redirect to="/login" />} exact={true} />
           </IonRouterOutlet>
         <IonTabBar slot="bottom">
-          <IonTabButton tab="tab1" href="/tab1">
-            <IonIcon icon={triangle} />
-            <IonLabel>Tab 1</IonLabel>
+          <IonTabButton tab="dashboard" href="/dashboard">
+            <IonIcon icon={earthOutline} />
+            <IonLabel>Dashboard</IonLabel>
           </IonTabButton>
-          <IonTabButton tab="tab2" href="/tab2">
+          <IonTabButton tab="gallery" href="/gallery">
             <IonIcon icon={images} />
-            <IonLabel>Photos</IonLabel>
+            <IonLabel>Gallery</IonLabel>
           </IonTabButton>
-          <IonTabButton tab="tab3" href="/tab3">
-            <IonIcon icon={square} />
-            <IonLabel>Tab 3</IonLabel>
+          <IonTabButton tab="profile" href="/profile">
+            <IonIcon icon={personCircleOutline} />
+            <IonLabel>Profile</IonLabel>
           </IonTabButton>
         </IonTabBar>
       </IonTabs>

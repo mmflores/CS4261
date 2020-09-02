@@ -18,3 +18,4 @@ firebase.initializeApp(config);
 firebase.firestore().settings(settings);
 
 export default firebase;
+

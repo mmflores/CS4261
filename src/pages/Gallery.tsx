@@ -2,11 +2,10 @@ import React from 'react';
 import { camera , trash , close } from  'ionicons/icons';
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar ,
         IonFab , IonFabButton , IonIcon , IonGrid , IonRow , IonCol , IonImg, IonActionSheet} from '@ionic/react';
-import ExploreContainer from '../components/ExploreContainer';
 import {usePhotoGallery} from '../hooks/usePhotoGallery';
 
 
-const Tab2: React.FC = () => {
+const Gallery: React.FC = () => {
 
   //initialize takePhoto
   const {photos, takePhoto} = usePhotoGallery();
@@ -46,4 +45,4 @@ const Tab2: React.FC = () => {
   );
 };
 
-export default Tab2;
+export default Gallery;

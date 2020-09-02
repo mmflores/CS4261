@@ -11,7 +11,7 @@ export default function reducer(state = defaultState, {type , payload}:
             return {
                 ...state,
                 user: {
-                    username: payload.split('@')[0]
+                    username: payload
                 }
             }
     }

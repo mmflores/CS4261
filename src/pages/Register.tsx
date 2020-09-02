@@ -4,6 +4,8 @@ import {Link, useHistory} from 'react-router-dom';
 import { toast } from '../toast';
 import {registerUser} from '../firebaseConf';
 import { useDispatch } from 'react-redux';
+import { setUserState } from '../redux/actions';
+
 
 const Register: React.FC = () => {
 
@@ -30,6 +32,7 @@ const Register: React.FC = () => {
         const res = await registerUser(username, password);
 
         if (res){
+          dispatch(setUserState(res));
             history.replace('./dashboard');
             toast('Registration sucessful!');
 
